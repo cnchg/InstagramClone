@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "845928017685",
+    "firebase_url": "https://pushtest-a4d42.firebaseio.com",
+    "project_id": "pushtest-a4d42",
+    "storage_bucket": "pushtest-a4d42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845928017685:android:58b4f84a34d83ca8",
+        "android_client_info": {
+          "package_name": "com.tricloudcommunications.ce.instagramclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "845928017685-30hvcfutitvdvku0bnqdq31cuvjul541.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH1j5dn2jW1iYnnwRN3WKlWww_0Jzvetc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
