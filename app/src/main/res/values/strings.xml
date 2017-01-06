@@ -9,6 +9,10 @@
     <string name="hello_world">Hello World!</string>
 
     <string name="instagramLogoImageView">Instagram Logo</string>
+    <string name="userNameLoginEditText">Enter your username&#8230;</string>
+    <string name="userPasswordLoginEditText">Enter your password&#8230;</string>
+    <string name="signUpButton">Sign Up</string>
+    <string name="changeSignUpTextView">or, Login</string>
 
 
 

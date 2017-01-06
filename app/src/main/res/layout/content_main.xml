@@ -17,8 +17,59 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/instagramlogo"
-        android:id="@+id/imageView"
+        android:id="@+id/instagramLogoImageView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/instagramLogoImageView" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/instagramLogoImageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="81dp"
+        android:id="@+id/userNameLogInEditText"
+        android:labelFor="@+id/userNameLogInEditText"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:hint="@string/userNameLoginEditText" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:labelFor="@+id/userPasswordLogInEditText"
+        android:ems="10"
+        android:layout_marginTop="17dp"
+        android:id="@+id/userPasswordLogInEditText"
+        android:layout_below="@+id/userNameLogInEditText"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:hint="@string/userPasswordLoginEditText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/signUpButton"
+        android:layout_below="@+id/userPasswordLogInEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:textSize="20sp"
+        android:text="@string/signUpButton"
+        android:onClick="signUp" />
+
+    <TextView
+        android:text="@string/changeSignUpTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/changeSignUpTextView"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/signUpButton"
+        android:layout_alignBottom="@+id/signUpButton"
+        android:layout_toEndOf="@+id/signUpButton"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/colorAccent" />
 </RelativeLayout>

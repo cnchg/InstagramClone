@@ -26,7 +26,45 @@ import com.parse.RequestPasswordResetCallback;
 import com.parse.SignUpCallback;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    Boolean signUpModeActive = true;
+    Button signUpButton;
+    TextView changeSignUpTextView;
+
+    public void signUp(View view){
+
+        EditText userNameEditText = (EditText) findViewById(R.id.userNameLogInEditText);
+        EditText passwordEditText = (EditText) findViewById(R.id.userPasswordLogInEditText);
+
+        if (userNameEditText.getText().toString().matches("") || passwordEditText.getText().toString().matches("")){
+
+            Toast.makeText(MainActivity.this, "A username and password is required", Toast.LENGTH_LONG).show();
+
+        }else {
+
+            ParseUser parseUser = new ParseUser();
+            parseUser.setUsername(userNameEditText.getText().toString());
+            parseUser.setPassword(passwordEditText.getText().toString());
+
+            parseUser.signUpInBackground(new SignUpCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null){
+
+                        Log.i("parseUser Event", "Sign sucessfull");
+
+                    }else{
+
+                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +73,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        changeSignUpTextView = (TextView) findViewById(R.id.changeSignUpTextView);
+        signUpButton = (Button) findViewById(R.id.signUpButton);
+
+        changeSignUpTextView.setOnClickListener(this);
 
 
+        /**
         //Check if the user is already logged in.
         if (ParseUser.getCurrentUser() != null){
 
@@ -47,9 +90,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("curentUser", "User is Not logged in ");
 
         }
-
-        //Initialize Parse Push notifications
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+         **/
 
         //Initialize Parse
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
@@ -75,5 +116,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if (view.getId() == R.id.changeSignUpTextView){
+
+            if (signUpModeActive){
+                signUpModeActive = false;
+                signUpButton.setText("LOG IN");
+                changeSignUpTextView.setText("or, Sign Up");
+
+            }else{
+
+                signUpModeActive = true;
+                signUpButton.setText("SIGN UP");
+                changeSignUpTextView.setText("or, Log in");
+
+            }
+
+            //Log.i("AppInfo", "Changed Sign Up Mode");
+        }
+
     }
 }
