@@ -34,6 +34,7 @@ public class StarterApplication extends Application{
         );
 
         /**
+         * //Starter Example
          ParseObject object = new ParseObject("ExampleObject");
          object.put("myNumber", "123");
          object.put("myString", "rob");
