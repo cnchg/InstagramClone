@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (signUpModeActive){
                 signUpModeActive = false;
                 userEmailEditText.setVisibility(View.INVISIBLE);
+
                 signUpButton.setText("LOG IN");
                 changeSignUpTextView.setText("or, Sign Up");
 
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 signUpModeActive = true;
                 userEmailEditText.setVisibility(View.VISIBLE);
+
                 signUpButton.setText("SIGN UP");
                 changeSignUpTextView.setText("or, Log in");
 
@@ -186,6 +188,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         contentMainRelativeLayout.setOnClickListener(this);
         instagramLogoImageView.setOnClickListener(this);
 
+        userPasswordEditText.setOnKeyListener(this);
+        userEmailEditText.setOnKeyListener(this);
+
 
         //Check if the user is already logged in.
         if (ParseUser.getCurrentUser() != null){
@@ -201,10 +206,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 userEmailEditText.setVisibility(View.VISIBLE);
                 userEmailEditText.setOnKeyListener(this);
-
-            }else {
-
-                userPasswordEditText.setOnKeyListener(this);
 
             }
 

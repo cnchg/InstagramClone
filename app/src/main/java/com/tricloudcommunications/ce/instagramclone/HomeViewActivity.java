@@ -4,20 +4,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeViewActivity extends AppCompatActivity {
+
+    ListView usersLV;
+    ArrayList<String> userArrayList;
+    ArrayAdapter arrayAdapter;
 
     public void logOutNow(View view){
 
         ParseUser.logOut();
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
-
 
     }
 
@@ -28,6 +42,47 @@ public class HomeViewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        usersLV = (ListView) findViewById(R.id.usersListView);
+        userArrayList = new ArrayList<String>();
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, userArrayList);
+        usersLV.setAdapter(arrayAdapter);
+
+        //userArrayList.add("James");
+        //userArrayList.add(ParseUser.getCurrentUser().getUsername());
+
+        ParseQuery<ParseUser> queryUsers = ParseUser.getQuery();
+        queryUsers.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+
+                if (e == null){
+
+                    if (objects.size() > 0){
+
+                        for (ParseObject users : objects){
+
+                            userArrayList.add(users.getString("username"));
+                            arrayAdapter.notifyDataSetChanged();
+
+                            Log.i("FindInBackGround IO ", users.getString("username"));
+                        }
+
+
+                    }else{
+
+                        userArrayList.add("No Users Found");
+                        arrayAdapter.notifyDataSetChanged();
+
+                        Log.i("FindInBackGround IO ", objects.toString());
+
+                    }
+
+                }else {
+
+                    Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
     }

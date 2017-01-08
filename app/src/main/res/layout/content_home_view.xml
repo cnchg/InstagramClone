@@ -14,14 +14,10 @@
     tools:showIn="@layout/activity_home_view"
     android:padding="0dp">
 
-    <Button
-        android:text="Log Out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="352dp"
-        android:id="@+id/logOutButton"
-        android:textSize="44sp"
-        android:onClick="logOutNow" />
+        android:id="@+id/usersListView" />
 </RelativeLayout>
