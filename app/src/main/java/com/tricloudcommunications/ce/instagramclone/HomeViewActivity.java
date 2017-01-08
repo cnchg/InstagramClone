@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -51,6 +52,7 @@ public class HomeViewActivity extends AppCompatActivity {
         //userArrayList.add(ParseUser.getCurrentUser().getUsername());
 
         ParseQuery<ParseUser> queryUsers = ParseUser.getQuery();
+        queryUsers.whereNotEqualTo("username", ParseUser.getCurrentUser().getUsername());
         queryUsers.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
