@@ -62,25 +62,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void done(ParseException e) {
                         if (e == null) {
 
-                            Intent intent = new Intent(MainActivity.this, HomeViewActivity.class);
-                            startActivity(intent);
+                            goHome();
 
                             Log.i("parseUser Event", "Sign sucessfull");
 
                         } else {
 
-                            if (e.getMessage().equals("invalid session token")){
-
-                                ParseUser.logOut();
-                                Toast.makeText(MainActivity.this, "Opps, something went wrong. Please try again.", Toast.LENGTH_LONG).show();
-
-                            }else {
-
-                                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-
+                            handleParseError(e);
                             //Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                            //handleParseError(e);
+
                         }
                     }
                 });
@@ -94,19 +84,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     if (user != null){
 
-                        Intent intent = new Intent(MainActivity.this, HomeViewActivity.class);
-                        startActivity(intent);
+                        goHome();
 
                         Log.i("Login Event", "Successfully logged in");
 
                     }else {
 
-                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        handleParseError(e);
+                        //Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.i("Login Event", e.toString() + " Error Code:" + e.getCode());
+
                     }
 
                 }
             });
         }
+
+    }
+
+    public void goHome(){
+
+        Intent intent = new Intent(MainActivity.this, HomeViewActivity.class);
+        startActivity(intent);
 
     }
 
@@ -120,8 +119,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ParseUser.logOut();
                 userNameEditText.setText("");
                 userPasswordEditText.setText("");
+                Toast.makeText(MainActivity.this, "Opps, something went wrong. Please try again.", Toast.LENGTH_LONG).show();
 
                 break;
+
+            case "i/o failure":
+                Toast.makeText(MainActivity.this, "Unable to connect to Instagram Clone services", Toast.LENGTH_LONG).show();
+
+                break;
+
+            default:
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
     }
@@ -134,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (signUpModeActive){
                 signUpModeActive = false;
                 userEmailEditText.setVisibility(View.INVISIBLE);
-
+                userPasswordEditText.setOnKeyListener(this);
                 signUpButton.setText("LOG IN");
                 changeSignUpTextView.setText("or, Sign Up");
 
@@ -142,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 signUpModeActive = true;
                 userEmailEditText.setVisibility(View.VISIBLE);
-
+                userEmailEditText.setOnKeyListener(this);
                 signUpButton.setText("SIGN UP");
                 changeSignUpTextView.setText("or, Log in");
 
@@ -188,15 +196,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         contentMainRelativeLayout.setOnClickListener(this);
         instagramLogoImageView.setOnClickListener(this);
 
-        userPasswordEditText.setOnKeyListener(this);
-        userEmailEditText.setOnKeyListener(this);
-
-
         //Check if the user is already logged in.
         if (ParseUser.getCurrentUser() != null){
 
-            Intent intent = new Intent(this, HomeViewActivity.class);
-            startActivity(intent);
+            goHome();
 
             Log.i("curentUser", "User is logged in " + ParseUser.getCurrentUser().getUsername());
 
@@ -212,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.i("curentUser", "User is Not logged in ");
 
         }
-
 
         //Initialize Parse
         ParseAnalytics.trackAppOpenedInBackground(getIntent());

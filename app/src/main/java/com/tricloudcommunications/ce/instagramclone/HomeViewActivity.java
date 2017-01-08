@@ -66,7 +66,7 @@ public class HomeViewActivity extends AppCompatActivity {
                             userArrayList.add(users.getString("username"));
                             arrayAdapter.notifyDataSetChanged();
 
-                            Log.i("FindInBackGround IO ", users.getString("username"));
+                            Log.i("FindInBackGround Users ", users.getString("username"));
                         }
 
 
@@ -75,7 +75,7 @@ public class HomeViewActivity extends AppCompatActivity {
                         userArrayList.add("No Users Found");
                         arrayAdapter.notifyDataSetChanged();
 
-                        Log.i("FindInBackGround IO ", objects.toString());
+                        Log.i("FindInBackGround Users ", objects.toString());
 
                     }
 
