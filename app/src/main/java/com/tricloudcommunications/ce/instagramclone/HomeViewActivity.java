@@ -29,11 +29,9 @@ public class HomeViewActivity extends AppCompatActivity {
     ArrayAdapter arrayAdapter;
 
     public void logOutNow(View view){
-
         ParseUser.logOut();
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
-
     }
 
     @Override
@@ -53,6 +51,7 @@ public class HomeViewActivity extends AppCompatActivity {
 
         ParseQuery<ParseUser> queryUsers = ParseUser.getQuery();
         queryUsers.whereNotEqualTo("username", ParseUser.getCurrentUser().getUsername());
+        queryUsers.addAscendingOrder("username");
         queryUsers.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
@@ -61,22 +60,16 @@ public class HomeViewActivity extends AppCompatActivity {
 
                     if (objects.size() > 0){
 
-                        for (ParseObject users : objects){
-
+                        for (ParseUser users : objects){
                             userArrayList.add(users.getString("username"));
-                            arrayAdapter.notifyDataSetChanged();
-
                             Log.i("FindInBackGround Users ", users.getString("username"));
                         }
-
-
-                    }else{
-
-                        userArrayList.add("No Users Found");
                         arrayAdapter.notifyDataSetChanged();
 
-                        Log.i("FindInBackGround Users ", objects.toString());
-
+                    }else{
+                        userArrayList.add("No Users Found");
+                        arrayAdapter.notifyDataSetChanged();
+                        //Log.i("FindInBackGround Users ", objects.toString());
                     }
 
                 }else {
