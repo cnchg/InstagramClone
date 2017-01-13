@@ -1,7 +1,15 @@
 package com.tricloudcommunications.ce.instagramclone;
 
+import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -9,29 +17,58 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.ProgressCallback;
+import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeViewActivity extends AppCompatActivity {
 
+    protected ProgressDialog proDialog;
+
     ListView usersLV;
     ArrayList<String> userArrayList;
     ArrayAdapter arrayAdapter;
+
+    protected void startLoading() {
+        proDialog = new ProgressDialog(this);
+        proDialog.setMessage("Saving...");
+        proDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        proDialog.setCancelable(false);
+        proDialog.show();
+    }
+
+    protected void stopLoading() {
+        proDialog.dismiss();
+        proDialog = null;
+    }
+
 
     public void logOutNow(View view){
         ParseUser.logOut();
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
+    }
+
+    public void getPhoto(){
+
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 1);
+
     }
 
     @Override
@@ -106,8 +143,97 @@ public class HomeViewActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.share_view_action_settings){
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                    getPhoto();
+                }else {
+
+                    getPhoto();
+                }
+
+            }else{
+
+                getPhoto();
+            }
+
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null){
+
+            Uri selectedImage = data.getData();
+            try {
+
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+
+                startLoading();
+
+                Log.i("Photo Status", "Recieved");
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                byte[] byteArray = stream.toByteArray();
+
+                ParseFile file = new ParseFile("image.png", byteArray);
+
+                ParseObject object = new ParseObject("Image");
+                object.put("image", file);
+                object.put("username", ParseUser.getCurrentUser().getUsername());
+                object.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+
+                        if (e == null){
+
+                            stopLoading();
+
+                            Toast.makeText(HomeViewActivity.this, "Image Saved", Toast.LENGTH_LONG).show();
+                        }else
+                        {
+                            Toast.makeText(HomeViewActivity.this, "Image could not be shared - please try again later", Toast.LENGTH_LONG).show();
+                            Log.i("ImageSave Event", e.toString());
+
+                        }
+                    }
+
+
+                });
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1){
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                getPhoto();
+
+            }
+
+        }
+
+    }
 
 }
