@@ -25,7 +25,16 @@ public class UserFeed extends AppCompatActivity {
 
         linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
         ImageView imageView = new ImageView(getApplicationContext());
-        imageView.setLayoutParams(new ViewGroup.LayoutParams());
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+
+
+        //See Soource on getDrawable: http://stackoverflow.com/a/38525429/5047666
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.instagramlogo, null));
+
+        linearLayout.addView(imageView);
 
     }
 

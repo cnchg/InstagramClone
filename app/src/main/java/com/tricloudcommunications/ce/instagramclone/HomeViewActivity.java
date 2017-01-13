@@ -91,8 +91,9 @@ public class HomeViewActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent i = new Intent(getApplicationContext(), UserFeed.class);
-                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), UserFeed.class);
+                intent.putExtra("username", userArrayList.get(position));
+                startActivity(intent);
 
             }
         });
