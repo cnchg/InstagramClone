@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -86,6 +87,16 @@ public class HomeViewActivity extends AppCompatActivity {
         //userArrayList.add("James");
         //userArrayList.add(ParseUser.getCurrentUser().getUsername());
 
+        usersLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent i = new Intent(getApplicationContext(), UserFeed.class);
+                startActivity(i);
+
+            }
+        });
+
         ParseQuery<ParseUser> queryUsers = ParseUser.getQuery();
         queryUsers.whereNotEqualTo("username", ParseUser.getCurrentUser().getUsername());
         queryUsers.addAscendingOrder("username");
@@ -115,7 +126,6 @@ public class HomeViewActivity extends AppCompatActivity {
                 }
             }
         });
-
 
     }
 

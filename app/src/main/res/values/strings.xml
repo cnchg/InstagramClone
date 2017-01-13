@@ -17,6 +17,7 @@
     <string name="signUpButton">Sign Up</string>
     <string name="changeSignUpTextView">or, Login</string>
     <string name="title_activity_home_view">Home View</string>
+    <string name="title_activity_user_feed">User Feed</string>
 
 
 </resources>

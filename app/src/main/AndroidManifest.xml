@@ -60,12 +60,12 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <!--                 IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
+                <!-- IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
                 <category android:name="com.tricloudcommunications.ce.instagramclone" />
             </intent-filter>
         </receiver>
 
-        <!--         IMPORTANT: Change "YOUR_SENDER_ID" to your GCM Sender Id. -->
+        <!-- IMPORTANT: Change "YOUR_SENDER_ID" to your GCM Sender Id. -->
         <meta-data
             android:name="com.parse.push.gcm_sender_id"
             android:value="id:845928017685" />
@@ -77,7 +77,16 @@
         <activity
             android:name=".HomeViewActivity"
             android:label="@string/title_activity_home_view"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UserFeed"
+            android:label="@string/title_activity_user_feed"
+            android:parentActivityName=".HomeViewActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tricloudcommunications.ce.instagramclone.HomeViewActivity" />
+        </activity>
     </application>
 
 </manifest>
