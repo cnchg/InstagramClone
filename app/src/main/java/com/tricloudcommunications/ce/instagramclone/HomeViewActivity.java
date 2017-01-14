@@ -58,6 +58,28 @@ public class HomeViewActivity extends AppCompatActivity {
         proDialog = null;
     }
 
+    public void handleParseError(Exception e){
+        //Source: https://parseplatform.github.io//docs/android/guide/#handling-invalid-session-token-error
+        //Source: http://parseplatform.github.io/docs/android/guide/#handling-invalid-session-token-error
+
+        switch(e.getMessage()){
+
+            case "invalid session token":
+                ParseUser.logOut();
+                Toast.makeText(HomeViewActivity.this, "Opps, something went wrong. Please try again.", Toast.LENGTH_LONG).show();
+
+                break;
+
+            case "i/o failure":
+                Toast.makeText(HomeViewActivity.this, "Unable to connect to Instagram Clone services", Toast.LENGTH_LONG).show();
+
+                break;
+
+            default:
+                Toast.makeText(HomeViewActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+    }
 
     public void logOutNow(View view){
         ParseUser.logOut();
@@ -78,6 +100,8 @@ public class HomeViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setTitle("Friends List");
 
         usersLV = (ListView) findViewById(R.id.usersListView);
         userArrayList = new ArrayList<String>();
@@ -123,7 +147,8 @@ public class HomeViewActivity extends AppCompatActivity {
 
                 }else {
 
-                    Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_LONG).show();
+                    handleParseError(e);
+                    //Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -186,9 +211,9 @@ public class HomeViewActivity extends AppCompatActivity {
             Uri selectedImage = data.getData();
             try {
 
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-
                 startLoading();
+
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
 
                 Log.i("Photo Status", "Recieved");
 

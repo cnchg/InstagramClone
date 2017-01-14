@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RelativeLayout contentMainRelativeLayout;
     ImageView instagramLogoImageView;
 
+    static  ImageView imageView;
+
 
     public void signUp(View view){
 
