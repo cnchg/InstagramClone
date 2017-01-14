@@ -81,12 +81,6 @@ public class HomeViewActivity extends AppCompatActivity {
 
     }
 
-    public void logOutNow(View view){
-        ParseUser.logOut();
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(i);
-    }
-
     public void getPhoto(){
 
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

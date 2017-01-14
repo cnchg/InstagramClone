@@ -50,6 +50,9 @@ public class UserFeed extends AppCompatActivity {
                         for (ParseObject object : objects){
 
                             ParseFile file = (ParseFile) object.get("image");
+
+                            /**
+                            //This method for some reason, does not list the images in order even if you try it will always give a random result
                             file.getDataInBackground(new GetDataCallback() {
                                 @Override
                                 public void done(byte[] data, ParseException e) {
@@ -73,6 +76,30 @@ public class UserFeed extends AppCompatActivity {
 
                                 }
                             });
+                             */
+
+                            //This method allows you to order the images so they are not random
+                            byte[] data = new byte[0];
+
+                            try {
+                                data = file.getData();
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+
+                            Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length);
+                            Bitmap resizeImage = Bitmap.createScaledBitmap(image, 500, 400, true);
+                            ImageView imageView = new ImageView(getApplicationContext());
+
+                            imageView.setImageBitmap(resizeImage);
+
+                            imageView.setLayoutParams(new ViewGroup.LayoutParams(
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT)
+                            );
+
+                            linearLayout.addView(imageView);
+
                         }
                     }else{
 

@@ -4,12 +4,12 @@ xmlns:tools="http://schemas.android.com/tools"
 tools:context="com.tricloudcommunications.ce.instagramclone.HomeViewActivity">
     <item android:title="@string/share_view_action_settings"
         android:id="@+id/share_view_action_settings"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_share_white_24dp" />
+        android:icon="@drawable/ic_share_white_24dp"
+        app:showAsAction="always" />
     <item
     android:id="@+id/home_view_action_settings"
     android:orderInCategory="100"
     android:title="@string/home_view_action_settings"
-    app:showAsAction="always"
-    android:icon="@drawable/ic_cloud_off_white_24dp" />
+        android:icon="@drawable/ic_cloud_off_white_24dp"
+        app:showAsAction="never" />
 </menu>
